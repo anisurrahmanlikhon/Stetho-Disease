@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>স্টেথোস্কোপ শব্দ ডিটেক্টর</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    html, body {
+      min-height: 100vh; /* Set minimum height to 100% of the viewport height */
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    header {
+      background-color: #007bff; /* Blue */
+      color: white;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+    }
+    footer {
+      background-color: #28a745; /* Green */
+      color: white;
+      padding: 10px 0;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-danger {
+      border-radius: 10px;
+    }
+    .stethoscope-img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>স্টেথোস্কোপ শব্দ ডিটেক্টর</h1>
+</header>
+
+<div class="container">
+  <img src="stethoscope.jpg" alt="Stethoscope" class="stethoscope-img">
+  <div class="form-group mt-4">
+    <label for="soundSelect">শব্দ নির্বাচন করুন:</label>
+    <select class="form-control" id="soundSelect">
+      <option value="">নির্বাচন করুন...</option>
+    </select>
+  </div>
+  <div class="mt-4" id="diseaseDisplay">
+    <!-- রোগের তথ্য এখানে প্রদর্শন হবে -->
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2024 স্টেথোস্কোপ শব্দ ডিটেক্টর</p>
+</footer>
+
+<script>
+  // Array of sounds and corresponding diseases
+  var soundDiseaseMap = {
+    "chirping": "শ্বাসকষ্ট বা অ্যাজমা",
+    "rapid": "হার্টের সমস্যা",
+    "sho": "ব্রংকাইটিস বা নিউমোনিয়া",
+    "gargle": "কাশি বা ঠান্ডা",
+    "muffled": "প্লুরিসি রোগ",
+    "wheezing": "অ্যাসথমা বা সিওপি‌ডি",
+    "cough": "ডাই প্লুরিসি রোগ",
+    "crackling": "হালুর প্লুরিসি রোগ",
+    "rattling": "খাঁটি আওয়াজ (অ্যাসথমা বা প্রদাহ)",
+    "wet": "নাম শব্দ (নিউমোনিয়া)",
+    "dry": "শুষ্ক শব্দ (সিওপি‌ডি বা ব্রংকাইটিস)",
+    "stridor": "স্ট্রাইডার শব্দ (কনজেশনের হালকা দিকে)",
+    "pleural_friction_rub": "প্লুরাল ফ্রিকশন রাব (প্লুরাল নিকটস্থ জন্য কাঁচা শব্দ)",
+    "clicking": "ক্লিকিং শব্দ (ব্রংকিটিস বা নিউমোনিয়া)",
+    "normal": "নরমাল শব্দ",
+    // Add more sounds and diseases here
+  };
+
+  // Populate the dropdown with sounds and diseases
+  function populateSounds() {
+    var soundSelect = document.getElementById("soundSelect");
+    for (var sound in soundDiseaseMap) {
+      var option = document.createElement("option");
+      option.value = sound;
+      option.textContent = sound;
+      soundSelect.appendChild(option);
+    }
+  }
+
+  // Display disease information on sound selection
+  function displayDisease() {
+    var sound = document.getElementById("soundSelect").value;
+    var disease = soundDiseaseMap[sound];
+    var diseaseDisplay = document.getElementById("diseaseDisplay");
+    diseaseDisplay.innerHTML = '<button class="btn btn-danger mt-2">রোগ: ' + disease + '</button>';
+  }
+
+  // Populate the dropdown with sounds on page load
+  populateSounds();
+
+  // Event listener to display disease information on sound selection
+  document.getElementById('soundSelect').addEventListener('change', displayDisease);
+</script>
+
+</body>
+</html>
