@@ -6,7 +6,6 @@
   <title>স্টেথোস্কোপের শব্দ</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
-  <script type="script" src="script.js"></script>
 </head>
 <body>
 
@@ -25,6 +24,10 @@
   <div class="mt-4" id="diseaseDisplay">
     <!-- রোগের তথ্য এখানে প্রদর্শন হবে -->
   </div>
+  <br>
+
+  <button class="btn btn-primary mt-2" id="treatmentButton" style="display: none;">চিকিৎসা</button><br>
+  <ul class="list-group treatment-list" id="treatmentList"></ul>
 </div>
 <br>
 <br>
@@ -33,7 +36,7 @@
 <a href="https://anisurrahmanlikhon.github.io/interactive-3d-human-anatomy/" target="blank"><p>🫁 Interactive 3D Human Anatomy</p></a>
 </footer>
 
-  <script>   
+<script>   
   
   // Array of sounds and corresponding diseases
   var soundDiseaseMap = {
@@ -53,6 +56,19 @@
     // Add more sounds and diseases here
   };
 
+  // Array of treatment options
+  var diseaseTreatmentMap = {
+    "শ্বাসকষ্ট বা অ্যাজমা": ["ইনহেলার", "ডোজাপ্রোপাম ক্লাইড আরজেন্টাইন একাডিল প্রিটিনেটের"],
+    "নিম্ন রক্তচাপ": ["আটেনলোল", "ক্যাপটোপ্রিল"],
+    "উচ্চ রক্তচাপ": ["লিসিনোপ্রিল", "মেথাডোপ্রামাইন"],
+    "ব্রংকাইটিস বা নিউমোনিয়া": ["অ্যান্টিবায়োটিক", "স্টেরয়ড"],
+    "কাশি বা ঠান্ডা বা কফ": ["কাফলুব", "ড্রায় কাফলুব সিরাপ"],
+    "প্লুরিসি রোগ": ["অ্যান্টিবায়োটিক", "প্যারাসিটামল"],
+    "ফুসফুসের প্রদাহ": ["স্টেরয়ড", "ব্রনকোডাইলাটর"],
+    "ডাই প্লুরিসি রোগ": ["অ্যান্টিবায়োটিক", "প্যারাসিটামল"],
+    // Add more diseases and treatments here
+  };
+
   // Populate the dropdown with sounds and diseases
   function populateSounds() {
     var soundSelect = document.getElementById("soundSelect");
@@ -70,6 +86,29 @@
     var disease = soundDiseaseMap[sound];
     var diseaseDisplay = document.getElementById("diseaseDisplay");
     diseaseDisplay.innerHTML = '<button class="btn btn-danger mt-2">রোগ: ' + disease + '</button>';
+
+    // Show treatment button when a disease is selected
+    var treatmentButton = document.getElementById("treatmentButton");
+    treatmentButton.style.display = "inline-block";
+  }
+
+  // Display treatment options on treatment button click
+  function displayTreatmentOptions() {
+    var sound = document.getElementById("soundSelect").value;
+    var disease = soundDiseaseMap[sound];
+    var treatmentList = document.getElementById("treatmentList");
+    treatmentList.innerHTML = ""; // Clear previous treatments
+    if (diseaseTreatmentMap[disease]) {
+      diseaseTreatmentMap[disease].forEach(function(treatment) {
+        var listItem = document.createElement("li");
+        listItem.textContent = treatment;
+        listItem.classList.add("list-group-item");
+        treatmentList.appendChild(listItem);
+      });
+      treatmentList.style.display = "block"; // Show the treatment list
+    } else {
+      treatmentList.style.display = "none"; // Hide the treatment list if no treatments found
+    }
   }
 
   // Populate the dropdown with sounds on page load
@@ -77,7 +116,10 @@
 
   // Event listener to display disease information on sound selection
   document.getElementById('soundSelect').addEventListener('change', displayDisease);
+
+  // Event listener to display treatment options on treatment button click
+  document.getElementById('treatmentButton').addEventListener('click', displayTreatmentOptions);
   
-  </script>
+</script>
 </body>
 </html>
